@@ -97,7 +97,7 @@ export default class BookKeyboard extends Component {
       easing: Easing.elastic(0),
       toValue: 0
     }).start((result)=>{
-
+      Keyboard.dismiss()
     });
   }
 
