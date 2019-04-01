@@ -35,27 +35,28 @@ export default class KDContent extends Component {
 
     // 日期改变
     _onValueChange = (itemValue, itemIndex, section)=>{
+        var itemIntValue = itemValue.substr(0, itemValue.length - 1)
 
         if (section == 1) {
-            this.setState({year: itemValue})
+            this.setState({year: itemIntValue})
             const minDate = new Date(this.props.minDate)
             const maxDate = new Date(this.props.maxDate)
 
-            if (parseInt(itemValue) == minDate.getFullYear() &&
+            if (parseInt(itemIntValue) == minDate.getFullYear() &&
                 parseInt(this.state.month) < (minDate.getMonth() + 1)) {
                 this.setState({month: (minDate.getMonth() + 1) + ""})
             }
-            if (parseInt(itemValue) == minDate.getFullYear() &&
+            if (parseInt(itemIntValue) == minDate.getFullYear() &&
                 parseInt(this.state.month) <= (minDate.getMonth() + 1) &&
                 parseInt(this.state.day) < minDate.getDate()) {
                 this.setState({day: minDate.getDate() + ""})
             }
 
-            if (parseInt(itemValue) == maxDate.getFullYear() &&
+            if (parseInt(itemIntValue) == maxDate.getFullYear() &&
                 parseInt(this.state.month) > (maxDate.getMonth() + 1)) {
                 this.setState({month: (maxDate.getMonth() + 1) + ""})
             }
-            if (parseInt(itemValue) == maxDate.getFullYear() &&
+            if (parseInt(itemIntValue) == maxDate.getFullYear() &&
                 parseInt(this.state.month) >= (maxDate.getMonth() + 1) &&
                 parseInt(this.state.day) > maxDate.getDate()) {
                 this.setState({day: maxDate.getDate() + ""})
@@ -63,22 +64,22 @@ export default class KDContent extends Component {
 
 
         } else if (section == 2) {
-            this.setState({month: itemValue})
+            this.setState({month: itemIntValue})
             const minDate = new Date(this.props.minDate)
             const maxDate = new Date(this.props.maxDate)
             if (parseInt(this.state.year) == minDate.getFullYear() &&
-                parseInt(itemValue) == (minDate.getMonth() + 1)) {
+                parseInt(itemIntValue) == (minDate.getMonth() + 1)) {
                 this.setState({day: minDate.getDate()})
             }
             if (parseInt(this.state.year) == maxDate.getFullYear() &&
-                parseInt(itemValue) == (maxDate.getMonth() + 1)) {
+                parseInt(itemIntValue) == (maxDate.getMonth() + 1)) {
                 this.setState({day: maxDate.getDate()})
             }
 
 
 
         } else if (section == 3) {
-            this.setState({day: itemValue})
+            this.setState({day: itemIntValue})
         }
     }
 
@@ -157,16 +158,16 @@ export default class KDContent extends Component {
             }
 
             for (let y=min; y<=max; y++) {
-                var str = y + (i == 1 ? "年":"月")
+                var str = y + (i == 1 ? "年":(i == 2 ? "月":"日"))
                 subarr.push(str)
                 subarrview.push(<Picker.Item key={y} label={str} value={str} />)
-            }me
+            }
 
 
             arr.push(
                 <Picker
                     key={i}
-                    selectedValue={selectValue + (i == 1 ? "年":"月")}
+                    selectedValue={selectValue + (i == 1 ? "年":(i == 2 ? "月":"日"))}
                     style={styles.picker}
                     itemStyle={styles.item}
                     onValueChange={(itemValue, itemIndex)=>{this._onValueChange(itemValue, itemIndex, i)}}

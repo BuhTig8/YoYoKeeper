@@ -96,7 +96,7 @@ KKDatePicker.defaultProps = {
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: NAVIGATION_HEIGHT + HOME_HEADER_H,
+        marginTop: NAVIGATION_HEIGHT,
         flex: 1,
     },
     shadowTouch: {

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import {StyleSheet, View, Image, Text, TextInput} from 'react-native';
+import {StyleSheet, View, Image, Text, TextInput, Animated} from 'react-native';
 
 
 const remark_img = require('~/assets/image/cc_study_calculator_l.png');
 export default class KeyboardHeader extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, {...this.props.style}]}>
         <View style={styles.line_H}/>
         <View style={styles.mainView}>
           <Image source={remark_img} style={styles.img_remark}/>
@@ -16,10 +16,11 @@ export default class KeyboardHeader extends Component {
             placeholder={'点击写备注...'}
             placeholderTextColor={kColor_Text_Gray}
             style={styles.textInput}
+            keyboardType={'default'}
           />
           <Text style={styles.money_text}>{this.props.money}</Text>
         </View>
-      </View>
+      </Animated.View>
     );
   }
 }

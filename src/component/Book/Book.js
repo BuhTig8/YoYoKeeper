@@ -4,7 +4,7 @@ import {StyleSheet, Text, View, TouchableOpacity, SegmentedControlIOS} from 'rea
 
 import BaseContainer from '~/common/base/BaseContainer';
 import BookScrollView from './BookScrollView/BookScrollView';
-import Keyboard from './Keyboard/Keyboard'
+import BookKeyboard from './Keyboard/BookKeyboard'
 
 import DeviceStorage from '~/utils/DeviceStorage'
 
@@ -87,7 +87,7 @@ export default class Book extends Component<Props> {
             onItemPress={()=>this._onItemPress()}
             onMomentumScrollEnd={(page)=>this._onMomentumScrollEnd(page)}
           />
-          <Keyboard ref={'keyboard'}/>
+          <BookKeyboard ref={'keyboard'}/>
         </BaseContainer>
     );
   }

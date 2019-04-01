@@ -40,8 +40,13 @@ export default class KeyboardTool {
       case 2:
         return '9';
         break;
-      case 3:
-        return 'date';
+      case 3:{
+        if (date == undefined) {
+          return '今天'
+        } else {
+          return date
+        }
+      }
         break;
       case 4:
         return '4';

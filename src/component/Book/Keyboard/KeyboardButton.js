@@ -6,9 +6,7 @@ const tuige_img = require('~/assets/image/tuige.png')
 export default class KeyboardButton extends Component {
 
   _content = ()=> {
-    if (this.props.title !== 'date' && this.props.title !== 'x') {
-      return <Text style={styles.title}>{this.props.title}</Text>
-    }else if (this.props.title === 'date'){
+    if (this.props.title === '今天') {
       return (
         <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Image source={rili_img} style={styles.rili_img}/>
@@ -19,6 +17,8 @@ export default class KeyboardButton extends Component {
       return (
         <Image source={tuige_img} style={{width: countcoordinatesX(60), height: countcoordinatesX(60)}}/>
       )
+    }else{
+      return <Text style={[styles.title, this.props.title.length > 3?{fontSize: FONT_SIZE(12)}:{}]}>{this.props.title}</Text>
     }
   }
 
@@ -44,8 +44,6 @@ const styles = StyleSheet.create({
     borderBottomColor: kColor_Line_Color,
     borderRightWidth: countcoordinatesX(1),
     borderRightColor: kColor_Line_Color,
-
-
     justifyContent: 'center',
     alignItems: 'center',
   },
