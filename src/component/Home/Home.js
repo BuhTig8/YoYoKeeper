@@ -18,11 +18,18 @@ export default class Home extends Component<Props> {
     this.state = {
       year: date.getFullYear(),
       month: date.getMonth() + 1,
+      recordList: [],
     };
   }
 
   componentDidMount = ()=> {
     DeviceStorage.initialization()
+    this.getData()
+  }
+
+  getData = async ()=> {
+    var recordList = await DeviceStorage.getRecord(this.state.year, this.state.month)
+    this.setState({recordList: recordList})
   }
 
   // 改变时间
@@ -31,6 +38,7 @@ export default class Home extends Component<Props> {
       year: parseInt(year),
       month: parseInt(month)
     });
+    this.getData()
     // setTimeout(() => {
     //   DeviceEventEmitter.emit(EVENT.ADD_BOOK_EVENT, {});
     // }, 300);
@@ -53,7 +61,7 @@ export default class Home extends Component<Props> {
           onChangeDate={(year, month)=>this._onChangeDate(year, month)}
         />
         <ScrollView contentContainerStyle={styles.scroll}>
-
+          {console.log(this.state.recordList)}
         </ScrollView>
       </BaseContainer>
     );

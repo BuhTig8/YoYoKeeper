@@ -76,6 +76,13 @@ export default class BookScrollView extends Component {
     return true
   }
 
+  //获取被选中的分类
+  getSelectedModel = ()=> {
+    var index = this.state.selectedIndexs[this.props.segmentSelectedIndex]
+    var model = this.props.models[this.props.segmentSelectedIndex][index]
+    return model
+  }
+
   render() {
     return (
       <ScrollView

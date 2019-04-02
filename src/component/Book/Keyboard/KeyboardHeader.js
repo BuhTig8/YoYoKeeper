@@ -17,6 +17,9 @@ export default class KeyboardHeader extends Component {
             placeholderTextColor={kColor_Text_Gray}
             style={styles.textInput}
             keyboardType={'default'}
+            maxLength={20}
+            returnKeyType={'done'}
+            onEndEditing={this.props.onEndEditing}
           />
           <Text style={styles.money_text}>{this.props.money}</Text>
         </View>

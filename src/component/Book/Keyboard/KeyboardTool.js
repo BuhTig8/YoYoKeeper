@@ -133,7 +133,7 @@ export default class KeyboardTool {
       return true
     }
     return false
-    }
+  }
   // 计算
   static isCalculation = (string)=>{
     if (string.length <= 1) {

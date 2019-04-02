@@ -14,10 +14,11 @@ export default class KDContent extends Component {
 
     constructor(props) {
         super(props);
+        const date = new Date()
         this.state = {
-            year: undefined,
-            month: undefined,
-            day: undefined,
+            year: date.getFullYear(),
+            month: date.getMonth() + 1,
+            day: date.getDate(),
         }
     }
 
@@ -35,6 +36,7 @@ export default class KDContent extends Component {
 
     // 日期改变
     _onValueChange = (itemValue, itemIndex, section)=>{
+        //去掉最后一个字(年,月,日)
         var itemIntValue = itemValue.substr(0, itemValue.length - 1)
 
         if (section == 1) {
@@ -221,7 +223,6 @@ export const getMonthDays = (da)=>{
 
 
 
-
 const date = new Date()
 KDContent.propTypes = {
     number: PropTypes.number.isRequired,
@@ -233,8 +234,8 @@ KDContent.propTypes = {
 }
 KDContent.defaultProps = {
     number: 1,
-    minDate: '2000-02-23',
-    maxDate: '2019-05-28',
+    minDate: '2000-01-01',
+    maxDate: '2022-12-31',
     defaultDate: format("yyyy-MM-dd", date),
     onCancle: ()=>{},
     onConfirm: ()=>{}

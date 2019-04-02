@@ -5,6 +5,7 @@ import {StyleSheet, Text, View, TouchableOpacity, SegmentedControlIOS} from 'rea
 import BaseContainer from '~/common/base/BaseContainer';
 import BookScrollView from './BookScrollView/BookScrollView';
 import BookKeyboard from './Keyboard/BookKeyboard'
+import RecordModel from '~/Model/RecordModel'
 
 import DeviceStorage from '~/utils/DeviceStorage'
 
@@ -72,6 +73,26 @@ export default class Book extends Component<Props> {
     );
   }
 
+  _onComplete = (money, dateStr, remark)=> {
+    const cmodel = this.refs.scroll.getSelectedModel()
+    var date
+    if (dateStr === '今天') {
+      date = new Date()
+    }else {
+      date = new Date(dateStr)
+    }
+    var recordModel = new RecordModel()
+    recordModel.category_id = cmodel.id
+    recordModel.price = money
+    recordModel.year = date.getFullYear()
+    recordModel.month = date.getMonth() + 1
+    recordModel.day = date.getDate()
+    recordModel.mark = remark
+    DeviceStorage.addRecord(recordModel)
+    const { goBack } = this.props.navigation
+    goBack()
+  }
+
   render() {
     return (
         <BaseContainer
@@ -87,7 +108,10 @@ export default class Book extends Component<Props> {
             onItemPress={()=>this._onItemPress()}
             onMomentumScrollEnd={(page)=>this._onMomentumScrollEnd(page)}
           />
-          <BookKeyboard ref={'keyboard'}/>
+          <BookKeyboard
+            ref={'keyboard'}
+            onComplete={this._onComplete}
+          />
         </BaseContainer>
     );
   }

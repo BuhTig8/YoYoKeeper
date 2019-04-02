@@ -49,6 +49,8 @@ export default class DeviceStorage {
       // 收入
       DeviceStorage.save(SAVE.PIN_CATE_SYS_HAS_INCOME, cateList.income)
 
+      // 记账
+      DeviceStorage.save(SAVE.PIN_BOOK, [])
       // 添加类别
       DeviceStorage.save(SAVE.PIN_FIRST_RUN, 1)
     }
@@ -95,5 +97,31 @@ export default class DeviceStorage {
    */
    static save(key, value) {
      return AsyncStorage.setItem(key, JSON.stringify(value));
+   }
+
+   static addRecord = async (recordModel) => {
+     var recordList = await DeviceStorage.load(SAVE.PIN_BOOK)
+     if (recordList.length == 0) {
+       recordModel.id = 1
+     }else {
+       recordModel.id = recordList.length + 1
+     }
+     recordList.push(recordModel)
+     await DeviceStorage.save(SAVE.PIN_BOOK, recordList)
+   }
+
+   static getRecord = async (year, month, day)=> {
+     var recordList = await DeviceStorage.load(SAVE.PIN_BOOK)
+     recordList = recordList.filter(function(item, index, array) {
+       if (day) {
+         return item.year == year && item.month == month && item.day == day
+       }else if (month) {
+         return item.year == year && item.month == month
+       }else if (year) {
+         return item.year == year
+       }
+       return true
+     })
+     return recordList
    }
 }

@@ -17,6 +17,7 @@ export default class BookKeyboard extends Component {
       date: undefined,
       keyboardAnim: new Animated.Value(0),
       inputTextAnim: new Animated.Value(0),
+      remark: '',
     }
   }
 
@@ -33,7 +34,6 @@ export default class BookKeyboard extends Component {
     const inputKeyH = BOOK_KEYBOARD_H
     const inputH = countcoordinatesX(80)
     const offsetY = inputH - (inputKeyH - keyboardH)
-    console.log(offsetY);
     Animated.timing(this.state.inputTextAnim,{
       duration: 200,
       easing: Easing.elastic(0),
@@ -60,6 +60,9 @@ export default class BookKeyboard extends Component {
       const money = this.state.money
       var newMoney = KeyboardTool.getMoneyString(money, index)
       this.setState({money: newMoney})
+      if (index === 15 && KeyboardTool.getKeyboardBtnTitle(index, this.state.money, this.state.date) === '完成') {
+        this.props.onComplete(this.state.money, this.state.date, this.state.remark)
+      }
     }
   }
 
@@ -101,6 +104,7 @@ export default class BookKeyboard extends Component {
     });
   }
 
+  //picker
   _onConfirm = (year, month, day)=> {
     var date = new Date(year, month - 1, day)
     if (!DateExtension.isToday(date)) {
@@ -111,6 +115,11 @@ export default class BookKeyboard extends Component {
     }
   }
 
+  _onEndEditing = (e)=> {
+    const { text } = e.nativeEvent
+    this.setState({remark: text})
+  }
+
   render() {
     return (
       <Animated.View style={{height: this.state.keyboardAnim}}>
@@ -118,6 +127,7 @@ export default class BookKeyboard extends Component {
           <KeyboardHeader
             money={this.state.money}
             style={{top: this.state.inputTextAnim}}
+            onEndEditing={this._onEndEditing}
           />
           <View style={styles.line_H}/>
           <View style={styles.subItem}>
