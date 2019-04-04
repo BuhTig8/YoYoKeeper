@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import KKDatePicker from '~/common/KKDatePicker/KKDatePicker';
+import { ToDecimal2 } from '~/utils/Tool'
 
 type Props = {};
 
@@ -19,10 +20,20 @@ export default class HomeHeader extends Component<Props> {
   }
 
   itemMoney = (index)=> {
+    var income = 0
+    var pay = 0
+    for (var i = 0; i < this.props.models.length; i++) {
+      var model = this.props.models[i].model
+      income = income + model.income
+      pay = pay + model.pay
+    }
+    var money = ToDecimal2(index == 1 ? income : pay)
+    var moneyInt = parseInt(money)
+    var moneyDetail = money.toString().substr(money.toString().length - 2, 2)
     return(
       <View style={styles.itemBottom}>
-        <Text style={styles.month}>0</Text>
-        <Text style={styles.moneyDetail}>.00</Text>
+        <Text style={styles.month}>{moneyInt}</Text>
+        <Text style={styles.moneyDetail}>{'.' + moneyDetail}</Text>
       </View>
     );
   }

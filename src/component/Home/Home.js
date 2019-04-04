@@ -5,6 +5,7 @@ import BaseContainer from '~/common/base/BaseContainer';
 
 import HomeNavigation from './HomeNavigation';
 import HomeHeader from './HomeHeader';
+import HomeTableView from './TableView/HomeTableView'
 import DeviceStorage from '~/utils/DeviceStorage'
 
 type Props = {};
@@ -24,7 +25,15 @@ export default class Home extends Component<Props> {
 
   componentDidMount = ()=> {
     DeviceStorage.initialization()
+    DeviceEventEmitter.addListener(EVENT.ADD_BOOK_EVENT, this.getData);
+    DeviceEventEmitter.addListener(EVENT.REMOVE_BOOK_EVENT, this.getData);
+    DeviceEventEmitter.addListener(EVENT.REPLACE_BOOK_EVENT, this.getData);
     this.getData()
+  }
+  componentWillUnmount = () => {
+    DeviceEventEmitter.removeListener(EVENT.ADD_BOOK_EVENT, this.getData)
+    DeviceEventEmitter.removeListener(EVENT.REMOVE_BOOK_EVENT, this.getData)
+    DeviceEventEmitter.removeListener(EVENT.REPLACE_BOOK_EVENT, this.getData)
   }
 
   getData = async ()=> {
@@ -38,10 +47,9 @@ export default class Home extends Component<Props> {
       year: parseInt(year),
       month: parseInt(month)
     });
-    this.getData()
-    // setTimeout(() => {
-    //   DeviceEventEmitter.emit(EVENT.ADD_BOOK_EVENT, {});
-    // }, 300);
+    setTimeout(() => {
+      DeviceEventEmitter.emit(EVENT.ADD_BOOK_EVENT, {});
+    }, 300);
   }
   // 导航栏
   hasTitleComponent = ()=>{
@@ -49,6 +57,7 @@ export default class Home extends Component<Props> {
       <HomeNavigation/>
     )
   }
+  //收入
   render() {
     return (
       <BaseContainer
@@ -58,11 +67,13 @@ export default class Home extends Component<Props> {
         <HomeHeader
           year={this.state.year}
           month={this.state.month}
+          models={this.state.recordList}
           onChangeDate={(year, month)=>this._onChangeDate(year, month)}
         />
-        <ScrollView contentContainerStyle={styles.scroll}>
-          {console.log(this.state.recordList)}
-        </ScrollView>
+        <HomeTableView
+          style={styles.scroll}
+          data={this.state.recordList}
+        />
       </BaseContainer>
     );
   }

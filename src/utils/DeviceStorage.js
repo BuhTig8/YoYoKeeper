@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-
+import DateExtension from '~/utils/DateExtension'
 const cateList = require('~/assets/json/Category.json');
 
 export const SAVE = {
@@ -112,16 +112,66 @@ export default class DeviceStorage {
 
    static getRecord = async (year, month, day)=> {
      var recordList = await DeviceStorage.load(SAVE.PIN_BOOK)
-     recordList = recordList.filter(function(item, index, array) {
-       if (day) {
-         return item.year == year && item.month == month && item.day == day
-       }else if (month) {
-         return item.year == year && item.month == month
-       }else if (year) {
-         return item.year == year
+     if (recordList.length > 0) {
+       recordList = recordList.filter(function(item, index, array) {
+         if (day) {
+           return item.year == year && item.month == month && item.day == day
+         }else if (month) {
+           return item.year == year && item.month == month
+         }else if (year) {
+           return item.year == year
+         }
+         return true
+       })
+     }
+     //处理数据
+     var dictm = {}
+     for (var i = 0; i < recordList.length; i++) {
+       var model = recordList[i]
+       var date = new Date(model.year, model.month, model.day)
+       var dateStr = DateExtension.dateToStr(date)
+
+       //初始化
+       if (Object.keys(dictm).indexOf(dateStr) == -1) {
+         var subModel = {}
+         subModel.list = []
+         subModel.income = 0
+         subModel.pay = 0
+         subModel.date = dateStr
+         dictm[dateStr] = subModel
        }
-       return true
+       //添加数据
+       var subModel = dictm[dateStr]
+       subModel.list.push(model)
+       //收入
+       if (model.cModel.is_income) {
+         subModel.income = subModel.income + model.price
+       }else {
+         subModel.pay = subModel.pay + model.price
+       }
+       dictm[dateStr] = subModel
+     }
+     //字典转换为数组
+     var arrm = []
+     for (var i = 0; i < Object.keys(dictm).length; i++) {
+       var subKey = Object.keys(dictm)[i]
+       arrm.push(dictm[subKey])
+     }
+     //排序
+     arrm = arrm.sort((a, b)=> {
+       return a.date - b.date
      })
-     return recordList
+     //添加key
+     var newArrm = []
+     for (var i = 0; i < arrm.length; i++) {
+       var model = arrm[i]
+       model.list = model.list.map((item, index)=> {
+         return Object.assign(item, {key: i + '.' + index})
+       })
+       newArrm.push({'model': model, 'data': model.list})
+     }
+
+
+     return newArrm
    }
 }

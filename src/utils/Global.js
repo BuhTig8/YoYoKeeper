@@ -3,6 +3,7 @@ import { FontSize } from './FontSize'
 import { Px2Dp } from './Tool'
 import { version } from '../../package.json'
 import { DeviceStorage } from './DeviceStorage'
+import { EVENT } from './DeviceEvent'
 
 const { width, height } = Dimensions.get('window');
 const OS = Platform.OS;
@@ -49,3 +50,4 @@ global.kColor_Green_Color = 'rgba(0, 220, 120, 1)'
 global.kColor_Green_Dark_Color = 'rgba(0, 200, 120, 1)'
 
 global.DeviceStorage = DeviceStorage
+global.EVENT = EVENT

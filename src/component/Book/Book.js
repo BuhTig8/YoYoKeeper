@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, SegmentedControlIOS} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, SegmentedControlIOS, DeviceEventEmitter} from 'react-native';
 
 import BaseContainer from '~/common/base/BaseContainer';
 import BookScrollView from './BookScrollView/BookScrollView';
@@ -73,7 +73,7 @@ export default class Book extends Component<Props> {
     );
   }
 
-  _onComplete = (money, dateStr, remark)=> {
+  _onComplete = async (money, dateStr, remark)=> {
     const cmodel = this.refs.scroll.getSelectedModel()
     var date
     if (dateStr === '今天') {
@@ -83,12 +83,14 @@ export default class Book extends Component<Props> {
     }
     var recordModel = new RecordModel()
     recordModel.category_id = cmodel.id
-    recordModel.price = money
+    recordModel.price = Number(money)
     recordModel.year = date.getFullYear()
     recordModel.month = date.getMonth() + 1
     recordModel.day = date.getDate()
     recordModel.mark = remark
-    DeviceStorage.addRecord(recordModel)
+    recordModel.cModel = cmodel
+    await DeviceStorage.addRecord(recordModel)
+    DeviceEventEmitter.emit(EVENT.ADD_BOOK_EVENT, {});
     const { goBack } = this.props.navigation
     goBack()
   }

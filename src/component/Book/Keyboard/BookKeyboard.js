@@ -14,7 +14,7 @@ export default class BookKeyboard extends Component {
     super(props)
     this.state = {
       money: '0',
-      date: undefined,
+      date: '今天',
       keyboardAnim: new Animated.Value(0),
       inputTextAnim: new Animated.Value(0),
       remark: '',

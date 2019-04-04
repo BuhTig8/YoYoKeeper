@@ -8,4 +8,5 @@ export default class RecordModel {
   month = 0             //月
   day = 0               //日
   mark = ''             //备注
+  cModel = undefined    //分类模型
 }
