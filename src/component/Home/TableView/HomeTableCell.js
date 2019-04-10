@@ -18,7 +18,7 @@ export default class HomeTableCell extends Component {
     return (
       <TouchableOpacity
         activeOpacity={0.9}
-        // onPress={}
+        onPress={this.props.onPress}
       >
         <View style={styles.container}>
           <Image source={ImageManager[this.props.data.cModel.icon_l]} style={styles.icon}/>

@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
 import {StyleSheet, View, SectionList, Text} from 'react-native';
-// import { PullList } from '~/third/react-native-pull'
 import HomeTableCell from './HomeTableCell'
 import DateExtension from '~/utils/DateExtension'
 
 
 export default class HomeTableView extends Component {
 
+  constructor(props) {
+    super(props)
+    this.state = {
+      refreshing: false
+    }
+  }
   _renderItem = (item, index, section)=> {
-    return <HomeTableCell data={item}/>
+    return <HomeTableCell
+              data={item}
+              onPress={()=>this.props.itemOnPress(item)}
+           />
   }
   _renderSectionHeader = ({section})=> {
     return(
@@ -33,6 +41,9 @@ export default class HomeTableView extends Component {
       <View style={styles.line}/>
     );
   }
+  _onRefresh = ()=> {
+    this.setState({refreshing: true})
+  }
   render() {
     return (
       <SectionList
@@ -42,8 +53,9 @@ export default class HomeTableView extends Component {
         // SectionSeparatorComponent={this._sectionSeparatorComponent}
         ItemSeparatorComponent={this._itemSeparatorComponent}
         keyExtractor={(item, index) => item + index}
+        // onRefresh={this._onRefresh}
+        // refreshing={this.state.refreshing}
       >
-
       </SectionList>
     );
   }
@@ -74,5 +86,5 @@ const styles = StyleSheet.create({
     marginLeft: countcoordinatesX(100),
     height: countcoordinatesX(1),
     backgroundColor: kColor_BG,
-  }
+  },
 });

@@ -57,6 +57,10 @@ export default class Home extends Component<Props> {
       <HomeNavigation/>
     )
   }
+  //cell点击
+  _itemOnPress = (item) => {
+    this.props.navigation.navigate('RecordDetail', {'model': item})
+  }
   //收入
   render() {
     return (
@@ -73,6 +77,7 @@ export default class Home extends Component<Props> {
         <HomeTableView
           style={styles.scroll}
           data={this.state.recordList}
+          itemOnPress={this._itemOnPress}
         />
       </BaseContainer>
     );

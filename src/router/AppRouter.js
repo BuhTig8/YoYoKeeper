@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 
 import Home from '~/component/Home/Home';
+import RecordDetail from '~/component/Home/RecordDetail/RecordDetail';
 import Chart from '~/component/Chart/Chart';
 import Book from '~/component/Book/Book';
 import None from '~/component/Book/None';
@@ -183,6 +184,10 @@ const AppContainer = createStackNavigator(
     },
     About: {
       screen: About,
+      navigationOptions: navigationOptions()
+    },
+    RecordDetail: {
+      screen: RecordDetail,
       navigationOptions: navigationOptions()
     },
   },

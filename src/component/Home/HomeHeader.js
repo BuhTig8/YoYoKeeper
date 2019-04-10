@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import KKDatePicker from '~/common/KKDatePicker/KKDatePicker';
 import { ToDecimal2 } from '~/utils/Tool'
+import DateExtension from '~/utils/DateExtension'
 
 type Props = {};
 
@@ -12,7 +13,7 @@ export default class HomeHeader extends Component<Props> {
   itemMonth = ()=> {
     return (
       <View style={styles.itemBottom}>
-        <Text style={styles.month}>{this.props.month}</Text>
+        <Text style={styles.month}>{DateExtension.supplement(this.props.month)}</Text>
         <Text style={styles.monthDetail}>月</Text>
         <Image source={triangle} style={styles.triangle}/>
       </View>
