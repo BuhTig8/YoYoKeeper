@@ -8,7 +8,7 @@ copy WFWatchSDK.framework to your workspace
 
 ### BlueToothManager
 
-'''#import <WFWatchSDK/WFWatchSDK.h>
+```#import <WFWatchSDK/WFWatchSDK.h>
 
 @interface ViewController ()<WFBlueToothManagerDelegate>
 @property (strong, nonatomic) WFBlueToothManager *bleManager;
@@ -20,4 +20,4 @@ copy WFWatchSDK.framework to your workspace
         self.bleManager = [WFBlueToothManager shareManager];
         self.bleManager.delegate = self;
 }
-'''
+```
