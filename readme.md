@@ -2,7 +2,7 @@
 
 ## Installation
 
-copy WFWatchSDK.framework to your workspace
+Copy **WFWatchSDK.framework** to your workspace
 
 ## Usage
 
